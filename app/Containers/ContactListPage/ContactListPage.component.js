@@ -1,28 +1,31 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import { View, Text } from 'react-native';
-import { Styles } from "./ContactListPage.component.style";
+import { Styles } from './ContactListPage.component.style';
 
 class ContactListPage extends Component {
+  componentDidMount() {
+    return this.fetchData();
+  }
 
-    componentDidMount() {
-        return this.fetchData();
-    }
+  fetchData = async () => {
+    const { getContactList } = this.props;
 
-    fetchData = async () => {
-        const { getContactList } = this.props;
+    await getContactList();
+  }
 
-        await getContactList();
-    }
-
-
-    render() {
+  render() {
     return (
-        <View style={Styles.container}>
-            <Text>Contact List Page</Text>
-        </View>
+      <View style={Styles.container}>
+        <Text>Contact List Page</Text>
+      </View>
     );
   }
 }
 
-export { ContactListPage }
+ContactListPage.propTypes = {
+  getContactList: PropTypes.func.isRequired,
+};
+
+export { ContactListPage };
