@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { func, shape, arrayOf }  from 'prop-types';
 
 import { View, Text } from 'react-native';
 import { Styles } from './ContactListPage.component.style';
@@ -16,16 +16,18 @@ class ContactListPage extends Component {
   }
 
   render() {
+    const { contactList } = this.props;
     return (
       <View style={Styles.container}>
-        <Text>Contact List Page</Text>
+        <Text>{JSON.stringify(contactList)}</Text>
       </View>
     );
   }
 }
 
 ContactListPage.propTypes = {
-  getContactList: PropTypes.func.isRequired,
+  getContactList: func.isRequired,
+  contactList: arrayOf(shape({})),
 };
 
 export { ContactListPage };
