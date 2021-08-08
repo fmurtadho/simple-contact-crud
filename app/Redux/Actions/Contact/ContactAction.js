@@ -136,14 +136,14 @@ const putContact = (id, body) => async (dispatch) => {
 
     dispatch({
       type: REQ_EDIT_CONTACT_SUCCESS,
-      payload: response.data.data,
+      payload: response.data,
     });
   } catch (error) {
     dispatch({
       error,
       errorResponse: error.response,
       type: REQ_EDIT_CONTACT_FAILURE,
-      errorMessage: 'failed to edit contact',
+      errorMessage: error.response.data.message || 'Failed To Edit Contact',
     });
   }
 };

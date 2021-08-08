@@ -193,17 +193,34 @@ class ContactDetailPage extends Component {
       age: Number(age),
       photo,
     });
+
+    const { error, errorMessage, message } = this.props;
+
+    if (error) {
+      return Alert.alert('ERROR', errorMessage);
+    }
+
+    return Alert.alert('SUCCESS', message);
   };
 
-  renderDeleteButton = () => (
-    <View style={Styles.deleteButtonContainer}>
-      <Button
-        color={Colors.CARAMEL.RED_LIP}
-        title="DELETE CONTACT"
-        onPress={this.onPressDelete}
-      />
-    </View>
-  );
+  renderDeleteButton = () => {
+    const { navigation: { getParam } } = this.props;
+    const isNewContact = getParam('new', false);
+
+    if (!isNewContact) {
+      return (
+        <View style={Styles.deleteButtonContainer}>
+          <Button
+            color={Colors.CARAMEL.RED_LIP}
+            title="DELETE CONTACT"
+            onPress={this.onPressDelete}
+          />
+        </View>
+      );
+    }
+
+    return <View />;
+  }
 
   render() {
     const {
