@@ -108,26 +108,15 @@ class ContactDetailPage extends Component {
     return setParams({ isEditing: false });
   };
 
-  onPressSave = async () => {
-    const {
-      firstName,
-      lastName,
-      age,
-      photo,
-    } = this.state;
-    const { navigation: { pop }, postContact, getContactList } = this.props;
-
-    await postContact({
-      firstName,
-      lastName,
-      age: Number(age),
-      photo,
-    });
-
+  handleResponse = () => {
     const {
       message,
       error,
       errorMessage,
+      getContactList,
+      navigation: {
+        pop,
+      },
     } = this.props;
 
     if (error) {
@@ -154,36 +143,32 @@ class ContactDetailPage extends Component {
     return Alert.alert('SUCCESS', message, successAlertButtons, successAlertOptions);
   };
 
+  onPressSave = async () => {
+    const {
+      firstName,
+      lastName,
+      age,
+      photo,
+    } = this.state;
+    const { postContact } = this.props;
+
+    await postContact({
+      firstName,
+      lastName,
+      age: Number(age),
+      photo,
+    });
+
+    return this.handleResponse();
+  };
+
   onPressDelete = async () => {
     const { id } = this.state;
-    const { deleteContact, navigation: { pop }, getContactList } = this.props;
+    const { deleteContact } = this.props;
 
     await deleteContact(id);
 
-    const { error, errorMessage, message } = this.props;
-
-    if (error) {
-      return Alert.alert('ERROR', errorMessage);
-    }
-
-    const successAlertButtons = [{
-      text: 'OK',
-      onPress: () => {
-        getContactList();
-        return pop(1);
-      },
-      style: 'default',
-    }];
-
-    const successAlertOptions = {
-      cancelable: true,
-      onDismiss: () => {
-        getContactList();
-        return pop(1);
-      },
-    };
-
-    return Alert.alert('SUCCESS', message, successAlertButtons, successAlertOptions);
+    return this.handleResponse();
   };
 
   onPressEdit = async () => {
@@ -203,24 +188,7 @@ class ContactDetailPage extends Component {
       photo,
     });
 
-    const { error, errorMessage, message } = this.props;
-
-    if (error) {
-      return Alert.alert('ERROR', errorMessage);
-    }
-
-    const successAlertButtons = [{
-      text: 'OK',
-      onPress: this.fetchContact,
-      style: 'default',
-    }];
-
-    const successAlertOptions = {
-      cancelable: true,
-      onDismiss: this.fetchContact,
-    };
-
-    return Alert.alert('SUCCESS', message, successAlertButtons, successAlertOptions);
+    return this.handleResponse();
   };
 
   renderDeleteButton = () => {
@@ -239,7 +207,7 @@ class ContactDetailPage extends Component {
       );
     }
 
-    return <View />;
+    return <View style={Styles.deleteButtonContainer} />;
   }
 
   render() {
