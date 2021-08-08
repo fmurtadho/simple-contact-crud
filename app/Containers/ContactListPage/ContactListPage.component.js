@@ -5,17 +5,16 @@ import {
   arrayOf,
   string,
   bool,
+  number,
 } from 'prop-types';
 import {
-  Text,
   FlatList,
-  TouchableOpacity,
   View,
-  Image,
 } from 'react-native';
 
 import { Styles } from './ContactListPage.component.style';
 import { Routes } from '../../Navigation';
+import { ContactListItem } from '../../Components/ContactListItem/ContactListItem.component';
 
 class ContactListPage extends Component {
   componentDidMount() {
@@ -28,20 +27,14 @@ class ContactListPage extends Component {
     await getContactList();
   }
 
-  renderItem = ({ item, index }) => (
-    <TouchableOpacity
-      key={index}
+  renderItem = ({ item }) => (
+    <ContactListItem
+      firstName={item.firstName}
+      lastName={item.lastName}
+      photo={item.photo}
+      id={item.id}
       onPress={this.onPressItem(item.id)}
-      style={Styles.item}
-    >
-      <Image
-        style={Styles.avatar}
-        source={{ uri: item.photo }}
-      />
-      <Text style={Styles.name}>
-        {`${item.firstName} ${item.lastName}`}
-      </Text>
-    </TouchableOpacity>
+    />
   );
 
   onPressItem = (id) => () => {
@@ -76,8 +69,11 @@ ContactListPage.propTypes = {
   },
   getContactList: func.isRequired,
   contactList: arrayOf(shape({
+    id: string,
     firstName: string,
     lastName: string,
+    age: number,
+    photo: string,
   })),
   loading: bool.isRequired,
 };
