@@ -19,6 +19,7 @@ import {
 const initialState = {
   loading: false,
   data: [],
+  contactDetail: {},
   error: false,
   errorMessage: '',
 };
@@ -49,19 +50,23 @@ const ContactReducer = (state = initialState, action) => {
   case REQ_GET_CONTACT:
     return {
       ...state,
+      contactDetail: {},
       loading: true,
+      error: false,
+      errorMessage: '',
     };
   case REQ_GET_CONTACT_SUCCESS:
     return {
       ...state,
+      contactDetail: action.payload,
       loading: false,
-      data: action.payload,
       error: false,
       errorMessage: '',
     };
   case REQ_GET_CONTACT_FAILURE:
     return {
       ...state,
+      contactDetail: {},
       loading: false,
       data: [],
       error: true,

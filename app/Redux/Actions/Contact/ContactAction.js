@@ -99,27 +99,25 @@ const postContact = (body) => async (dispatch) => {
 };
 
 const deleteContact = (id) => async (dispatch) => {
+  const api = `${BASE_URL}/contact/${id}`;
+
   dispatch({
+    api,
     type: REQ_DELETE_CONTACT,
     id,
   });
 
   try {
-    const response = await axios.delete(`${BASE_URL}/contact/${id}`);
+    const response = await axios.delete(api);
 
-    if (response.status === ResponseCode.SUCCESS) {
-      dispatch({
-        type: REQ_DELETE_CONTACT_SUCCESS,
-        payload: response.data.data,
-      });
-    } else {
-      dispatch({
-        type: REQ_DELETE_CONTACT_FAILURE,
-        errorMessage: 'failed to delete contact',
-      });
-    }
+    dispatch({
+      type: REQ_DELETE_CONTACT_SUCCESS,
+      payload: response.data.data,
+    });
   } catch (error) {
     dispatch({
+      error,
+      errorResponse: error.response,
       type: REQ_DELETE_CONTACT_FAILURE,
       errorMessage: 'failed to delete contact',
     });
@@ -134,21 +132,16 @@ const putContact = (id, body) => async (dispatch) => {
   });
 
   try {
-    const response = await axios.put(`${BASE_URL}/contact/${id}`);
+    const response = await axios.put(`${BASE_URL}/contact/${id}`, { ...body });
 
-    if (response.status === ResponseCode.SUCCESS) {
-      dispatch({
-        type: REQ_EDIT_CONTACT_SUCCESS,
-        payload: response.data.data,
-      });
-    } else {
-      dispatch({
-        type: REQ_EDIT_CONTACT_FAILURE,
-        errorMessage: 'failed to edit contact',
-      });
-    }
+    dispatch({
+      type: REQ_EDIT_CONTACT_SUCCESS,
+      payload: response.data.data,
+    });
   } catch (error) {
     dispatch({
+      error,
+      errorResponse: error.response,
       type: REQ_EDIT_CONTACT_FAILURE,
       errorMessage: 'failed to edit contact',
     });
