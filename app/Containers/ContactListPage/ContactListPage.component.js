@@ -4,6 +4,7 @@ import {
   shape,
   arrayOf,
   string,
+  bool,
 } from 'prop-types';
 import {
   Text,
@@ -54,9 +55,11 @@ class ContactListPage extends Component {
   itemSeparatorComponent = () => <View style={Styles.separator} />
 
   render() {
-    const { contactList } = this.props;
+    const { contactList, loading } = this.props;
     return (
       <FlatList
+        refreshing={loading}
+        onRefresh={this.fetchData}
         ItemSeparatorComponent={this.itemSeparatorComponent}
         keyExtractor={this.keyExtractor}
         contentContainerStyle={Styles.container}
@@ -76,6 +79,7 @@ ContactListPage.propTypes = {
     firstName: string,
     lastName: string,
   })),
+  loading: bool.isRequired,
 };
 
 export { ContactListPage };

@@ -5,6 +5,9 @@ import { getContactList } from '../../Redux/Actions/Contact/ContactAction';
 
 const mapStateToProps = (state) => ({
   contactList: state.contact.data,
+  loading: state.contact.loading,
+  error: state.contact.error,
+  erorrMessage: state.contact.errorMessage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
