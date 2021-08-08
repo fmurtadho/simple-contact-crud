@@ -105,7 +105,7 @@ class ContactDetailPage extends Component {
           style={Styles.textInput}
           onChangeText={(text) => this.onChangeText(text, 'age')}
           keyboardType="numeric"
-          value={age}
+          value={String(age)}
         />
         <TextInput
           style={Styles.textInput}
