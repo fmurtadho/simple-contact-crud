@@ -144,6 +144,18 @@ class ContactDetailPage extends Component {
       age: Number(age),
       photo,
     });
+
+    const {
+      message,
+      error,
+      errorMessage,
+    } = this.props;
+
+    if (error) {
+      return Alert.alert('ERROR', errorMessage);
+    }
+
+    return Alert.alert('SUCCESS', message);
   };
 
   onPressDelete = async () => {
@@ -265,6 +277,7 @@ ContactDetailPage.propTypes = {
   error: bool.isRequired,
   errorMessage: string,
   loading: bool.isRequired,
+  message: string,
 };
 
 export { ContactDetailPage };

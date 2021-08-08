@@ -86,14 +86,14 @@ const postContact = (body) => async (dispatch) => {
 
     dispatch({
       type: REQ_CREATE_CONTACT_SUCCESS,
-      payload: response.data.data,
+      payload: response.data,
     });
   } catch (error) {
     dispatch({
       error,
       errorResponse: error.response,
       type: REQ_CREATE_CONTACT_FAILURE,
-      errorMessage: 'failed to create new contact',
+      errorMessage: error.response.data.message || 'Failed To Add New Contact',
     });
   }
 };

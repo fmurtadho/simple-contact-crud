@@ -13,6 +13,7 @@ const mapStateToProps = (state) => ({
   error: state.contact.error,
   errorMessage: state.contact.errorMessage,
   contactDetail: state.contact.contactDetail,
+  message: state.contact.message,
 });
 
 const mapDispatchToProps = (dispatch) => ({

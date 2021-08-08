@@ -17,6 +17,7 @@ import {
 } from '../../Actions';
 
 const initialState = {
+  message: '',
   loading: false,
   data: [],
   contactDetail: {},
@@ -76,6 +77,7 @@ const ContactReducer = (state = initialState, action) => {
     return {
       ...state,
       loading: true,
+      message: '',
     };
   case REQ_CREATE_CONTACT_SUCCESS:
     return {
@@ -83,6 +85,7 @@ const ContactReducer = (state = initialState, action) => {
       loading: false,
       error: false,
       errorMessage: '',
+      message: action.payload.message,
     };
   case REQ_CREATE_CONTACT_FAILURE:
     return {
