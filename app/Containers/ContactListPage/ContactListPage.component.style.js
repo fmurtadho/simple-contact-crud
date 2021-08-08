@@ -2,15 +2,35 @@ import { Colors } from '../../Theme';
 
 const Styles = {
   container: {
+    flex: 1,
     padding: 16,
+    backgroundColor: Colors.GREY_SOLITUDE,
   },
   item: {
     borderWidth: 1,
-    borderColor: '#f0f8ff',
+    borderColor: Colors.GREY_MERCURY,
     flexDirection: 'row',
-    elevation: 2,
+    elevation: 4,
+    borderRadius: 8,
     backgroundColor: Colors.WHITE,
     padding: 16,
+  },
+  avatar: {
+    height: 40,
+    width: 40,
+    borderRadius: 8,
+    marginRight: 8,
+  },
+  avatarPlaceholder: {
+    height: 40,
+    width: 40,
+    borderRadius: 8,
+    marginRight: 8,
+  },
+  name: {
+    fontSize: 16,
+    alignSelf: 'center',
+    color: Colors.BLACKISH,
   },
   separator: {
     height: 16,

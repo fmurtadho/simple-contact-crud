@@ -5,6 +5,8 @@ import {
   TextInput,
   Button,
   Alert,
+  Text,
+  ScrollView, ActivityIndicator,
 } from 'react-native';
 import {
   bool,
@@ -15,6 +17,7 @@ import {
 } from 'prop-types';
 
 import { Styles } from './ContactDetailPage.component.style';
+import { Colors } from '../../Theme';
 
 class ContactDetailPage extends Component {
   constructor(props) {
@@ -58,21 +61,27 @@ class ContactDetailPage extends Component {
       return Alert.alert(errorMessage);
     }
 
-    return Alert.alert('Invalid Contact ID');
+    return false;
   };
 
   renderImage = () => {
     const { photo } = this.state;
     if (photo) {
       return (
-        <Image
-          style={Styles.photo}
-          source={{ uri: photo }}
-        />
+        <View style={Styles.photoContainer}>
+          <Image
+            style={Styles.photo}
+            source={{ uri: photo }}
+          />
+        </View>
       );
     }
 
-    return <View style={Styles.photo} />;
+    return (
+      <View style={Styles.photoContainer}>
+        <View style={Styles.photoPlaceholder} />
+      </View>
+    );
   };
 
   onChangeText = (text, name) => this.setState({
@@ -122,48 +131,79 @@ class ContactDetailPage extends Component {
     });
   };
 
+  renderDeleteButton = () => (
+    <View style={Styles.deleteButtonContainer}>
+      <Button
+        color={Colors.CARAMEL.RED_LIP}
+        title="DELETE CONTACT"
+        onPress={this.onPressDelete}
+      />
+    </View>
+  );
+
   render() {
     const {
-      id,
       firstName,
       lastName,
       age,
       photo,
     } = this.state;
+    const { loading } = this.props;
+
+    if (loading) {
+      return (
+        <View style={Styles.loadingContainer}>
+          <ActivityIndicator
+            color={Colors.CARAMEL.LAKE}
+            size="large"
+          />
+        </View>
+      );
+    }
 
     return (
-      <View style={Styles.container}>
+      <ScrollView style={Styles.container}>
         {this.renderImage()}
+        <Text style={Styles.textInputLabel}>
+          First Name
+        </Text>
         <TextInput
-          style={Styles.textInput}
-          value={id}
-        />
-        <TextInput
+          placeholder="Input First Name"
           style={Styles.textInput}
           value={firstName}
-          placeholder="firstName"
           onChangeText={(text) => this.onChangeText(text, 'firstName')}
         />
+        <Text style={Styles.textInputLabel}>
+          Last Name
+        </Text>
         <TextInput
+          placeholder="Input Last Name"
           style={Styles.textInput}
           value={lastName}
           onChangeText={(text) => this.onChangeText(text, 'lastName')}
         />
+        <Text style={Styles.textInputLabel}>
+          Age
+        </Text>
         <TextInput
+          placeholder="Input Age"
           style={Styles.textInput}
           onChangeText={(text) => this.onChangeText(text, 'age')}
           keyboardType="numeric"
           value={String(age)}
         />
+        <Text style={Styles.textInputLabel}>
+          Photo URL
+        </Text>
         <TextInput
+          placeholder="Input Photo URL"
+          multiline
           style={Styles.textInput}
           value={photo}
           onChangeText={(text) => this.onChangeText(text, 'photo')}
         />
-        <Button title="TEST SAVE" onPress={this.onPressSave} />
-        <Button title="TEST DELETE" onPress={this.onPressDelete} />
-        <Button title="TEST UPDATE" onPress={this.onPressEdit} />
-      </View>
+        {this.renderDeleteButton()}
+      </ScrollView>
     );
   }
 }
@@ -184,6 +224,7 @@ ContactDetailPage.propTypes = {
   },
   error: bool.isRequired,
   errorMessage: string,
+  loading: bool.isRequired,
 };
 
 export { ContactDetailPage };

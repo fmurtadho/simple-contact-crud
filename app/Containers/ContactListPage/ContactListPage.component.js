@@ -10,6 +10,7 @@ import {
   FlatList,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native';
 
 import { Styles } from './ContactListPage.component.style';
@@ -32,7 +33,11 @@ class ContactListPage extends Component {
       onPress={this.onPressItem(item.id)}
       style={Styles.item}
     >
-      <Text>
+      <Image
+        style={Styles.avatar}
+        source={{ uri: item.photo }}
+      />
+      <Text style={Styles.name}>
         {`${item.firstName} ${item.lastName}`}
       </Text>
     </TouchableOpacity>
