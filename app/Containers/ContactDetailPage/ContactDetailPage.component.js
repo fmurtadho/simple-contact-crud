@@ -2,11 +2,16 @@ import React, { Component } from 'react';
 import {
   View,
   Image,
-  TextInput, Button,
+  TextInput,
+  Button,
+  Alert,
 } from 'react-native';
 import {
+  bool,
   func,
   shape,
+  string,
+  number,
 } from 'prop-types';
 
 import { Styles } from './ContactDetailPage.component.style';
@@ -24,18 +29,36 @@ class ContactDetailPage extends Component {
   }
 
   componentDidMount() {
-    return this.setData();
+    return this.fetchContact();
   }
 
-  setData = () => {
-    const { navigation: { getParam } } = this.props;
-    const item = getParam('item', 'NO-ITEM');
+  fetchContact = async () => {
+    const { navigation: { getParam }, getContact } = this.props;
+    const id = getParam('id', 'NO-ID');
 
-    if (item !== 'NO-ITEM') {
-      this.setState({
-        ...item,
-      });
+    if (id !== 'NO-ID') {
+      await getContact(id);
+
+      const {
+        contactDetail,
+        error,
+        errorMessage,
+      } = this.props;
+
+      if (!error) {
+        return this.setState({
+          id: contactDetail.id,
+          firstName: contactDetail.firstName,
+          lastName: contactDetail.lastName,
+          age: contactDetail.age,
+          photo: contactDetail.photo,
+        });
+      }
+
+      return Alert.alert(errorMessage);
     }
+
+    return Alert.alert('Invalid Contact ID');
   };
 
   renderImage = () => {
@@ -67,6 +90,31 @@ class ContactDetailPage extends Component {
     const { postContact } = this.props;
 
     await postContact({
+      firstName,
+      lastName,
+      age: Number(age),
+      photo,
+    });
+  };
+
+  onPressDelete = async () => {
+    const { id } = this.state;
+    const { deleteContact } = this.props;
+
+    await deleteContact(id);
+  };
+
+  onPressEdit = async () => {
+    const { id } = this.state;
+    const { putContact } = this.props;
+    const {
+      firstName,
+      lastName,
+      age,
+      photo,
+    } = this.state;
+
+    await putContact(id, {
       firstName,
       lastName,
       age: Number(age),
@@ -113,6 +161,8 @@ class ContactDetailPage extends Component {
           onChangeText={(text) => this.onChangeText(text, 'photo')}
         />
         <Button title="TEST SAVE" onPress={this.onPressSave} />
+        <Button title="TEST DELETE" onPress={this.onPressDelete} />
+        <Button title="TEST UPDATE" onPress={this.onPressEdit} />
       </View>
     );
   }
@@ -123,6 +173,17 @@ ContactDetailPage.propTypes = {
     getParam: func.isRequired,
   }),
   postContact: func.isRequired,
+  deleteContact: func.isRequired,
+  putContact: func.isRequired,
+  getContact: func.isRequired,
+  contactDetail: {
+    firstName: string.isRequired,
+    lastName: string.isRequired,
+    age: number.isRequired,
+    photo: string.isRequired,
+  },
+  error: bool.isRequired,
+  errorMessage: string,
 };
 
 export { ContactDetailPage };
