@@ -115,9 +115,7 @@ class ContactDetailPage extends Component {
       age,
       photo,
     } = this.state;
-    const { navigation: { pop } } = this.props;
-
-    const { postContact } = this.props;
+    const { navigation: { pop }, postContact, getContactList } = this.props;
 
     await postContact({
       firstName,
@@ -138,13 +136,19 @@ class ContactDetailPage extends Component {
 
     const successAlertButtons = [{
       text: 'OK',
-      onPress: () => pop(1),
+      onPress: () => {
+        getContactList();
+        return pop(1);
+      },
       style: 'default',
     }];
 
     const successAlertOptions = {
       cancelable: true,
-      onDismiss: () => pop(1),
+      onDismiss: () => {
+        getContactList();
+        return pop(1);
+      },
     };
 
     return Alert.alert('SUCCESS', message, successAlertButtons, successAlertOptions);
@@ -152,7 +156,7 @@ class ContactDetailPage extends Component {
 
   onPressDelete = async () => {
     const { id } = this.state;
-    const { deleteContact, navigation: { pop } } = this.props;
+    const { deleteContact, navigation: { pop }, getContactList } = this.props;
 
     await deleteContact(id);
 
@@ -164,13 +168,19 @@ class ContactDetailPage extends Component {
 
     const successAlertButtons = [{
       text: 'OK',
-      onPress: () => pop(1),
+      onPress: () => {
+        getContactList();
+        return pop(1);
+      },
       style: 'default',
     }];
 
     const successAlertOptions = {
       cancelable: true,
-      onDismiss: () => pop(1),
+      onDismiss: () => {
+        getContactList();
+        return pop(1);
+      },
     };
 
     return Alert.alert('SUCCESS', message, successAlertButtons, successAlertOptions);
@@ -291,6 +301,7 @@ ContactDetailPage.propTypes = {
   navigation: shape({
     getParam: func.isRequired,
   }),
+  getContactList: func.isRequired,
   postContact: func.isRequired,
   deleteContact: func.isRequired,
   putContact: func.isRequired,

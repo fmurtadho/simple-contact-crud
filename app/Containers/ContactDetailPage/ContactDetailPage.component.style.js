@@ -8,6 +8,7 @@ const Styles = {
   },
   deleteButtonContainer: {
     marginTop: 16,
+    marginBottom: 32,
   },
   loadingContainer: {
     flex: 1,

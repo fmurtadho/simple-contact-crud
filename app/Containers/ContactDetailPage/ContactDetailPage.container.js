@@ -6,6 +6,7 @@ import {
   postContact,
   putContact,
   deleteContact,
+  getContactList,
 } from '../../Redux/Actions/Contact/ContactAction';
 
 const mapStateToProps = (state) => ({
@@ -17,6 +18,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  getContactList: () => dispatch(getContactList()),
   getContact: (id) => dispatch(getContact(id)),
   postContact: (body) => dispatch(postContact(body)),
   putContact: (id, body) => dispatch(putContact(id, body)),
