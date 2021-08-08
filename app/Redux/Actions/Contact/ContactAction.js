@@ -14,6 +14,9 @@ import {
   REQ_DELETE_CONTACT,
   REQ_DELETE_CONTACT_SUCCESS,
   REQ_DELETE_CONTACT_FAILURE,
+  REQ_GET_CONTACT,
+  REQ_GET_CONTACT_SUCCESS,
+  REQ_GET_CONTACT_FAILURE,
 } from '../index';
 import { ResponseCode } from '../../../Constants';
 
@@ -40,6 +43,34 @@ const getContactList = () => async (dispatch) => {
     dispatch({
       type: REQ_CONTACT_LIST_FAILURE,
       errorMessage: 'Failed to fetch contact list',
+    });
+  }
+};
+
+const getContact = (id) => async (dispatch) => {
+  dispatch({
+    type: REQ_GET_CONTACT,
+    id,
+  });
+
+  try {
+    const response = await axios.get(`${BASE_URL}/contact/${id}`);
+
+    if (response.status === ResponseCode.SUCCESS) {
+      dispatch({
+        type: REQ_GET_CONTACT_SUCCESS,
+        payload: response.data.data,
+      });
+    } else {
+      dispatch({
+        type: REQ_GET_CONTACT_FAILURE,
+        errorMessage: 'failed to get contact',
+      });
+    }
+  } catch (error) {
+    dispatch({
+      type: REQ_GET_CONTACT_FAILURE,
+      errorMessage: 'failed to get contact',
     });
   }
 };
@@ -74,7 +105,7 @@ const deleteContact = (id) => async (dispatch) => {
   });
 
   try {
-    const response = await axios.delete(`${BASE_URL}/contact`);
+    const response = await axios.delete(`${BASE_URL}/contact/${id}`);
 
     if (response.status === ResponseCode.SUCCESS) {
       dispatch({
@@ -95,14 +126,15 @@ const deleteContact = (id) => async (dispatch) => {
   }
 };
 
-const putContact = (body) => async (dispatch) => {
+const putContact = (id, body) => async (dispatch) => {
   dispatch({
     type: REQ_EDIT_CONTACT,
+    id,
     body,
   });
 
   try {
-    const response = await axios.put(`${BASE_URL}/contact`);
+    const response = await axios.put(`${BASE_URL}/contact/${id}`);
 
     if (response.status === ResponseCode.SUCCESS) {
       dispatch({
@@ -125,6 +157,7 @@ const putContact = (body) => async (dispatch) => {
 
 export {
   getContactList,
+  getContact,
   postContact,
   putContact,
   deleteContact,

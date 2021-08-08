@@ -2,6 +2,9 @@ import {
   REQ_CONTACT_LIST,
   REQ_CONTACT_LIST_SUCCESS,
   REQ_CONTACT_LIST_FAILURE,
+  REQ_GET_CONTACT,
+  REQ_GET_CONTACT_SUCCESS,
+  REQ_GET_CONTACT_FAILURE,
   REQ_CREATE_CONTACT,
   REQ_CREATE_CONTACT_SUCCESS,
   REQ_CREATE_CONTACT_FAILURE,
@@ -43,6 +46,27 @@ const ContactReducer = (state = initialState, action) => {
       error: true,
       errorMessage: action.errorMessage,
     };
+  case REQ_GET_CONTACT:
+    return {
+      ...state,
+      loading: true,
+    };
+  case REQ_GET_CONTACT_SUCCESS:
+    return {
+      ...state,
+      loading: false,
+      data: action.payload,
+      error: false,
+      errorMessage: '',
+    };
+  case REQ_GET_CONTACT_FAILURE:
+    return {
+      ...state,
+      loading: false,
+      data: [],
+      error: true,
+      errorMessage: action.errorMessage,
+    };
   case REQ_CREATE_CONTACT:
     return {
       ...state,
@@ -56,6 +80,44 @@ const ContactReducer = (state = initialState, action) => {
       errorMessage: '',
     };
   case REQ_CREATE_CONTACT_FAILURE:
+    return {
+      ...state,
+      loading: false,
+      error: true,
+      errorMessage: action.errorMessage,
+    };
+  case REQ_EDIT_CONTACT:
+    return {
+      ...state,
+      loading: true,
+    };
+  case REQ_EDIT_CONTACT_SUCCESS:
+    return {
+      ...state,
+      loading: false,
+      error: false,
+      errorMessage: '',
+    };
+  case REQ_EDIT_CONTACT_FAILURE:
+    return {
+      ...state,
+      loading: false,
+      error: true,
+      errorMessage: action.errorMessage,
+    };
+  case REQ_DELETE_CONTACT:
+    return {
+      ...state,
+      loading: true,
+    };
+  case REQ_DELETE_CONTACT_SUCCESS:
+    return {
+      ...state,
+      loading: false,
+      error: false,
+      errorMessage: '',
+    };
+  case REQ_DELETE_CONTACT_FAILURE:
     return {
       ...state,
       loading: false,
