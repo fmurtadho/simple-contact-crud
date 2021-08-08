@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import {
   View,
-  Image,
   TextInput,
   Button,
   Alert,
   Text,
-  ScrollView, ActivityIndicator,
+  ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import {
   bool,
@@ -18,6 +18,7 @@ import {
 
 import { Styles } from './ContactDetailPage.component.style';
 import { Colors } from '../../Theme';
+import { ContactDetailImage } from '../../Components/ContactDetailImage/ContactDetailImage.component';
 
 class ContactDetailPage extends Component {
   constructor(props) {
@@ -74,26 +75,6 @@ class ContactDetailPage extends Component {
     }
 
     return false;
-  };
-
-  renderImage = () => {
-    const { photo } = this.state;
-    if (photo) {
-      return (
-        <View style={Styles.photoContainer}>
-          <Image
-            style={Styles.photo}
-            source={{ uri: photo }}
-          />
-        </View>
-      );
-    }
-
-    return (
-      <View style={Styles.photoContainer}>
-        <View style={Styles.photoPlaceholder} />
-      </View>
-    );
   };
 
   onChangeText = (text, name) => this.setState({
@@ -274,7 +255,7 @@ class ContactDetailPage extends Component {
 
     return (
       <ScrollView style={Styles.container}>
-        {this.renderImage()}
+        <ContactDetailImage uri={photo} />
         <Text style={Styles.textInputLabel}>
           First Name
         </Text>
