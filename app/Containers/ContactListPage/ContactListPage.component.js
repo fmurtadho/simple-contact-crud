@@ -41,7 +41,7 @@ class ContactListPage extends Component {
   onPressItem = (item) => () => {
     const { navigation: { navigate } } = this.props;
 
-    navigate(Routes.MainStackNavigator.ContactDetailPage);
+    navigate(Routes.MainStackNavigator.ContactDetailPage, { item });
   };
 
   keyExtractor = (item) => item.id
