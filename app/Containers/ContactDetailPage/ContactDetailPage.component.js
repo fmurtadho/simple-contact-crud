@@ -172,9 +172,28 @@ class ContactDetailPage extends Component {
 
   onPressDelete = async () => {
     const { id } = this.state;
-    const { deleteContact } = this.props;
+    const { deleteContact, navigation: { pop } } = this.props;
 
     await deleteContact(id);
+
+    const { error, errorMessage, message } = this.props;
+
+    if (error) {
+      return Alert.alert('ERROR', errorMessage);
+    }
+
+    const successAlertButtons = [{
+      text: 'OK',
+      onPress: () => pop(1),
+      style: 'default',
+    }];
+
+    const successAlertOptions = {
+      cancelable: true,
+      onDismiss: () => pop(1),
+    };
+
+    return Alert.alert('SUCCESS', message, successAlertButtons, successAlertOptions);
   };
 
   onPressEdit = async () => {

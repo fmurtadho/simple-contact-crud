@@ -121,6 +121,9 @@ const ContactReducer = (state = initialState, action) => {
     return {
       ...state,
       loading: true,
+      error: false,
+      errorMessage: '',
+      message: '',
     };
   case REQ_DELETE_CONTACT_SUCCESS:
     return {
@@ -128,6 +131,7 @@ const ContactReducer = (state = initialState, action) => {
       loading: false,
       error: false,
       errorMessage: '',
+      message: action.payload.message,
     };
   case REQ_DELETE_CONTACT_FAILURE:
     return {

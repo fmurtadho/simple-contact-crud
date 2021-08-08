@@ -112,14 +112,14 @@ const deleteContact = (id) => async (dispatch) => {
 
     dispatch({
       type: REQ_DELETE_CONTACT_SUCCESS,
-      payload: response.data.data,
+      payload: response.data,
     });
   } catch (error) {
     dispatch({
       error,
       errorResponse: error.response,
       type: REQ_DELETE_CONTACT_FAILURE,
-      errorMessage: 'failed to delete contact',
+      errorMessage: error.response.data.message || 'Failed To Delete Contact',
     });
   }
 };
