@@ -31,7 +31,11 @@ const MainStackNavigator = createStackNavigator({
             borderRadius: 4,
             elevation: 4,
           }}
-          onPress={() => navigation.navigate(Routes.MainStackNavigator.ContactDetailPage)}
+          onPress={() => navigation.navigate(
+            Routes.MainStackNavigator.ContactDetailPage, {
+              new: true,
+            },
+          )}
         >
           <Text style={{ fontSize: 24, fontWeight: 'bold' }}>+</Text>
         </TouchableOpacity>
@@ -41,16 +45,17 @@ const MainStackNavigator = createStackNavigator({
   ContactDetailPage: {
     screen: ContactDetailPage,
     navigationOptions: ({ navigation }) => {
-      const onPressEdit = navigation.getParam('onPressEdit');
+      const onPressSave = navigation.getParam('onPressSave');
       const isEditing = navigation.getParam('isEditing', false);
+      const isNewContact = navigation.getParam('new', false);
       return {
         title: 'Contact Detail',
         headerRight: (
           <View style={{ marginRight: 16 }}>
             <Button
-              disabled={!isEditing}
+              disabled={!isEditing && !isNewContact}
               title="save"
-              onPress={onPressEdit}
+              onPress={onPressSave}
               color={Colors.CARAMEL.LAKE}
             />
           </View>

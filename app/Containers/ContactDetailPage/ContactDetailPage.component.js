@@ -37,9 +37,14 @@ class ContactDetailPage extends Component {
   }
 
   setupOnPressSave = () => {
-    const { navigation: { setParams } } = this.props;
+    const { navigation: { setParams, getParam } } = this.props;
+    const isNewContact = getParam('new', false);
 
-    return setParams({ onPressEdit: this.onPressEdit });
+    if (isNewContact) {
+      return setParams({ onPressSave: this.onPressSave });
+    }
+
+    return setParams({ onPressSave: this.onPressEdit });
   };
 
   fetchContact = async () => {
