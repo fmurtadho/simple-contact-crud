@@ -29,7 +29,7 @@ class ContactListPage extends Component {
   renderItem = ({ item, index }) => (
     <TouchableOpacity
       key={index}
-      onPress={this.onPressItem(item)}
+      onPress={this.onPressItem(item.id)}
       style={Styles.item}
     >
       <Text>
@@ -38,10 +38,10 @@ class ContactListPage extends Component {
     </TouchableOpacity>
   );
 
-  onPressItem = (item) => () => {
+  onPressItem = (id) => () => {
     const { navigation: { navigate } } = this.props;
 
-    navigate(Routes.MainStackNavigator.ContactDetailPage, { item });
+    navigate(Routes.MainStackNavigator.ContactDetailPage, { id });
   };
 
   keyExtractor = (item) => item.id
