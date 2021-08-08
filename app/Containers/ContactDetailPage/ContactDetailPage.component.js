@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import {
   View,
-  TextInput,
   Button,
   Alert,
-  Text,
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
@@ -19,6 +17,7 @@ import {
 import { Styles } from './ContactDetailPage.component.style';
 import { Colors } from '../../Theme';
 import { ContactDetailImage } from '../../Components/ContactDetailImage/ContactDetailImage.component';
+import { CustomTextInput } from '../../Components/CustomTextInput/CustomTextInput.component';
 
 class ContactDetailPage extends Component {
   constructor(props) {
@@ -256,43 +255,31 @@ class ContactDetailPage extends Component {
     return (
       <ScrollView style={Styles.container}>
         <ContactDetailImage uri={photo} />
-        <Text style={Styles.textInputLabel}>
-          First Name
-        </Text>
-        <TextInput
-          placeholder="Input First Name"
-          style={Styles.textInput}
+        <CustomTextInput
+          label="First Name"
+          onChangeText={this.onChangeText}
+          fieldName="firstName"
           value={firstName}
-          onChangeText={(text) => this.onChangeText(text, 'firstName')}
         />
-        <Text style={Styles.textInputLabel}>
-          Last Name
-        </Text>
-        <TextInput
-          placeholder="Input Last Name"
-          style={Styles.textInput}
+        <CustomTextInput
+          label="Last Name"
+          onChangeText={this.onChangeText}
+          fieldName="lastName"
           value={lastName}
-          onChangeText={(text) => this.onChangeText(text, 'lastName')}
         />
-        <Text style={Styles.textInputLabel}>
-          Age
-        </Text>
-        <TextInput
-          placeholder="Input Age"
-          style={Styles.textInput}
-          onChangeText={(text) => this.onChangeText(text, 'age')}
+        <CustomTextInput
           keyboardType="numeric"
+          label="Age"
+          onChangeText={this.onChangeText}
+          fieldName="age"
           value={String(age)}
         />
-        <Text style={Styles.textInputLabel}>
-          Photo URL
-        </Text>
-        <TextInput
-          placeholder="Input Photo URL"
+        <CustomTextInput
           multiline
-          style={Styles.textInput}
+          label="Photo URL"
+          onChangeText={this.onChangeText}
+          fieldName="photo"
           value={photo}
-          onChangeText={(text) => this.onChangeText(text, 'photo')}
         />
         {this.renderDeleteButton()}
       </ScrollView>
