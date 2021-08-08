@@ -1,6 +1,11 @@
 import React from 'react';
 import { createAppContainer, createStackNavigator } from 'react-navigation';
-import { Text, TouchableOpacity } from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  Button,
+  View,
+} from 'react-native';
 
 import ContactListPage from '../../Containers/ContactListPage/ContactListPage.container';
 import ContactDetailPage from '../../Containers/ContactDetailPage/ContactDetailPage.container';
@@ -35,9 +40,23 @@ const MainStackNavigator = createStackNavigator({
   },
   ContactDetailPage: {
     screen: ContactDetailPage,
-    navigationOptions: ({
-      title: 'Contact Detail',
-    }),
+    navigationOptions: ({ navigation }) => {
+      const onPressEdit = navigation.getParam('onPressEdit');
+      const isEditing = navigation.getParam('isEditing', false);
+      return {
+        title: 'Contact Detail',
+        headerRight: (
+          <View style={{ marginRight: 16 }}>
+            <Button
+              disabled={!isEditing}
+              title="save"
+              onPress={onPressEdit}
+              color={Colors.CARAMEL.LAKE}
+            />
+          </View>
+        ),
+      };
+    },
   },
 });
 

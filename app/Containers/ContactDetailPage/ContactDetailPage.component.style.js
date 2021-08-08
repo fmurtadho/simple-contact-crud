@@ -28,7 +28,6 @@ const Styles = {
     borderWidth: 0.5,
     borderColor: Colors.GREY_MERCURY,
     backgroundColor: Colors.WHITE,
-    elevation: 3,
   },
   textInput: {
     borderWidth: 1,

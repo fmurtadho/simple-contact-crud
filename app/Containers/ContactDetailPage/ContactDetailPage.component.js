@@ -32,8 +32,15 @@ class ContactDetailPage extends Component {
   }
 
   componentDidMount() {
+    this.setupOnPressSave();
     return this.fetchContact();
   }
+
+  setupOnPressSave = () => {
+    const { navigation: { setParams } } = this.props;
+
+    return setParams({ onPressEdit: this.onPressEdit });
+  };
 
   fetchContact = async () => {
     const { navigation: { getParam }, getContact } = this.props;
@@ -86,7 +93,35 @@ class ContactDetailPage extends Component {
 
   onChangeText = (text, name) => this.setState({
     [name]: text,
-  });
+  }, this.checkValue);
+
+  checkValue = () => {
+    const { contactDetail, navigation: { setParams } } = this.props;
+    const {
+      firstName,
+      lastName,
+      age,
+      photo,
+    } = this.state;
+
+    if (firstName !== contactDetail.firstName) {
+      return setParams({ isEditing: true });
+    }
+
+    if (lastName !== contactDetail.lastName) {
+      return setParams({ isEditing: true });
+    }
+
+    if (Number(age) !== Number(contactDetail.age)) {
+      return setParams({ isEditing: true });
+    }
+
+    if (photo !== contactDetail.photo) {
+      return setParams({ isEditing: true });
+    }
+
+    return setParams({ isEditing: false });
+  };
 
   onPressSave = async () => {
     const {
