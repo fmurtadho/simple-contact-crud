@@ -135,6 +135,7 @@ class ContactDetailPage extends Component {
       age,
       photo,
     } = this.state;
+    const { navigation: { pop } } = this.props;
 
     const { postContact } = this.props;
 
@@ -155,7 +156,18 @@ class ContactDetailPage extends Component {
       return Alert.alert('ERROR', errorMessage);
     }
 
-    return Alert.alert('SUCCESS', message);
+    const successAlertButtons = [{
+      text: 'OK',
+      onPress: () => pop(1),
+      style: 'default',
+    }];
+
+    const successAlertOptions = {
+      cancelable: true,
+      onDismiss: () => pop(1),
+    };
+
+    return Alert.alert('SUCCESS', message, successAlertButtons, successAlertOptions);
   };
 
   onPressDelete = async () => {
