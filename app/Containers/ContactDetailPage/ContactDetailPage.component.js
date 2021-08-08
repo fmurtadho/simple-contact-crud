@@ -200,7 +200,18 @@ class ContactDetailPage extends Component {
       return Alert.alert('ERROR', errorMessage);
     }
 
-    return Alert.alert('SUCCESS', message);
+    const successAlertButtons = [{
+      text: 'OK',
+      onPress: this.fetchContact,
+      style: 'default',
+    }];
+
+    const successAlertOptions = {
+      cancelable: true,
+      onDismiss: this.fetchContact,
+    };
+
+    return Alert.alert('SUCCESS', message, successAlertButtons, successAlertOptions);
   };
 
   renderDeleteButton = () => {
