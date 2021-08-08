@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import {
   View,
   Image,
-  TextInput,
+  TextInput, Button,
 } from 'react-native';
 import {
-  func, shape,
+  func,
+  shape,
 } from 'prop-types';
 
 import { Styles } from './ContactDetailPage.component.style';
@@ -51,6 +52,28 @@ class ContactDetailPage extends Component {
     return <View style={Styles.photo} />;
   };
 
+  onChangeText = (text, name) => this.setState({
+    [name]: text,
+  });
+
+  onPressSave = async () => {
+    const {
+      firstName,
+      lastName,
+      age,
+      photo,
+    } = this.state;
+
+    const { postContact } = this.props;
+
+    await postContact({
+      firstName,
+      lastName,
+      age: Number(age),
+      photo,
+    });
+  };
+
   render() {
     const {
       id,
@@ -70,16 +93,26 @@ class ContactDetailPage extends Component {
         <TextInput
           style={Styles.textInput}
           value={firstName}
+          placeholder="firstName"
+          onChangeText={(text) => this.onChangeText(text, 'firstName')}
         />
         <TextInput
+          style={Styles.textInput}
           value={lastName}
+          onChangeText={(text) => this.onChangeText(text, 'lastName')}
         />
         <TextInput
-          value={age.toString()}
+          style={Styles.textInput}
+          onChangeText={(text) => this.onChangeText(text, 'age')}
+          keyboardType="numeric"
+          value={age}
         />
         <TextInput
+          style={Styles.textInput}
           value={photo}
+          onChangeText={(text) => this.onChangeText(text, 'photo')}
         />
+        <Button title="TEST SAVE" onPress={this.onPressSave} />
       </View>
     );
   }
@@ -89,6 +122,7 @@ ContactDetailPage.propTypes = {
   navigation: shape({
     getParam: func.isRequired,
   }),
+  postContact: func.isRequired,
 };
 
 export { ContactDetailPage };

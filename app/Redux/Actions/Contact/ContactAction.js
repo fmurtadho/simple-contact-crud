@@ -51,21 +51,16 @@ const postContact = (body) => async (dispatch) => {
   });
 
   try {
-    const response = await axios.post(`${BASE_URL}/contact`);
+    const response = await axios.post(`${BASE_URL}/contact`, { ...body });
 
-    if (response.status === ResponseCode.SUCCESS) {
-      dispatch({
-        type: REQ_CREATE_CONTACT_SUCCESS,
-        payload: response.data.data,
-      });
-    } else {
-      dispatch({
-        type: REQ_CREATE_CONTACT_FAILURE,
-        errorMessage: 'failed to create new contact',
-      });
-    }
+    dispatch({
+      type: REQ_CREATE_CONTACT_SUCCESS,
+      payload: response.data.data,
+    });
   } catch (error) {
     dispatch({
+      error,
+      errorResponse: error.response,
       type: REQ_CREATE_CONTACT_FAILURE,
       errorMessage: 'failed to create new contact',
     });
